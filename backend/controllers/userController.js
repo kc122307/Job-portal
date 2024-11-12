@@ -1,14 +1,15 @@
 import { User } from "../models/userModel.js";
-import bcyrpt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const register = async(req,res)=>{
     try {
         const {fullname,email,phoneNumber,password,role} = req.body; 
-        if(!fullname|| !email || !phoneNumber || !password || !role){
+        console.log(fullname,email,phoneNumber,password,role);
+        if(!fullname|| !email || !phoneNumber || !password || !role){  
             return res.status(400).json({
                 message:"Something is missing",
-                success:false
+                success:false,
             });
         };
 
@@ -16,10 +17,10 @@ export const register = async(req,res)=>{
         if(user){
             return res.status(400).json({
                 message:"User already existed with this email",
-                success : false
+                success : false,
             });
         };
-        const hashedPassword = await bcyrpt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(password,10);
 
         await User.create({
             fullname,
@@ -45,7 +46,7 @@ export const login = async (req, res) => {
         if (!email || !password || !role) {
             return res.status(400).json({
                 message: "Something is missing",
-                success: false
+                success: false,
             });
         };
         let user = await User.findOne({ email });
@@ -55,7 +56,7 @@ export const login = async (req, res) => {
                 success: false,
             })
         }
-        const isPasswordMatch = await bcyrpt.compare(password, user.password);
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
             return res.status(400).json({
                 message: "Incorrect email or password.",
@@ -66,7 +67,7 @@ export const login = async (req, res) => {
         if (role !== user.role) {
             return res.status(400).json({
                 message: "Account doesn't exist with current role.",
-                success: false
+                success: false,
             })
         };
 
