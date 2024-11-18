@@ -12,9 +12,10 @@ import store from '@/redux/store'
 
 const skills = ["Html", "Css", "Javascript", "Reactjs"]
 
-const isResume = true ;
+
 
 const Profile = () => {
+    const isResume = true ;
    
     const[open,setOpen] = useState(false);
     const{user}=useSelector(store=>store.auth);
@@ -27,7 +28,7 @@ const Profile = () => {
                 <div className='flex justify-between'>
                     <div className='flex items-center gap-4'>
                         <Avatar className='h-24 w-24'>
-                            <AvatarImage src='https://th.bing.com/th/id/OIP.KBuZjyxYAuvYzhryALHh_AHaGw?w=208&h=189&c=7&r=0&o=5&dpr=1.3&pid=1.7' alt='Profile' />
+                            <AvatarImage src={user?.profile?.profilePhoto} alt='Profile' />
                         </Avatar>
                         <div>
                             <h1 className='font-medium text-xl'>{user?.fullname}</h1>
