@@ -6,6 +6,10 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
+import Companies from './components/admin/Companies'
+import CompanyCreate from './components/admin/CompanyCreate'
+import CompanySetup from './components/admin/CompanySetUp'
+import AdminJobs from './components/admin/AdminJobs'
 
 
 
@@ -37,6 +41,23 @@ const approuter = createBrowserRouter([
   {
     path:'/description/:id',
     element:<JobDescription/>
+  },
+    // admin ke liye yha se start hoga
+  {
+    path:"/admin/companies",
+    element: <Companies/>
+  },
+  {
+    path:"/admin/companies/create",
+    element: <CompanyCreate/> 
+  },
+  {
+    path:"/admin/companies/:id",
+    element: <CompanySetup/> 
+  },
+  {
+    path:"/admin/jobs",
+    element:<AdminJobs/>
   }
 ])
 
