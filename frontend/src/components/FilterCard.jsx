@@ -1,6 +1,8 @@
-import { Label } from '@radix-ui/react-label'
-import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Label } from './ui/label'
+import { useDispatch } from 'react-redux'
+import { setSearchedQuery } from '@/redux/jobSlice'
 
 const fitlerData = [
     {
@@ -17,26 +19,20 @@ const fitlerData = [
     },
 ]
 
-const styles = `
-  .radio-item {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid gray;
-  }
-  .radio-item[data-state="checked"] {
-    background-color: black;
-    border-color: black;
-  }
-`
-
 const FilterCard = () => {
+    const [selectedValue, setSelectedValue] = useState('');
+    const dispatch = useDispatch();
+    const changeHandler = (value) => {
+        setSelectedValue(value);
+    }
+    useEffect(()=>{
+        dispatch(setSearchedQuery(selectedValue));
+    },[selectedValue]);
     return (
         <div className='w-full bg-white p-3 rounded-md'>
-             <style>{styles}</style>
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
             <hr className='mt-3' />
-            <RadioGroup>
+            <RadioGroup value={selectedValue} onValueChange={changeHandler}>
                 {
                     fitlerData.map((data, index) => (
                         <div>
@@ -46,7 +42,7 @@ const FilterCard = () => {
                                     const itemId = `id${index}-${idx}`
                                     return (
                                         <div className='flex items-center space-x-2 my-2'>
-                                            <RadioGroupItem value={item} id={itemId} className='radio-item' />
+                                            <RadioGroupItem value={item} id={itemId} />
                                             <Label htmlFor={itemId}>{item}</Label>
                                         </div>
                                     )
@@ -60,4 +56,4 @@ const FilterCard = () => {
     )
 }
 
-export default FilterCard;
+export default FilterCard
