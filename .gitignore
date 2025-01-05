@@ -1,10 +1,12 @@
-# Environment variables
+# Environment variables - catch all locations
 .env
 .env.local
 .env.development
 .env.test
 .env.production
 .env.*
+backend/.env
+**/backend/.env
 
 # Logs
 logs
