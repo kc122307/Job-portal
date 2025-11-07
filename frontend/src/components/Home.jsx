@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Navbar from './shared/Navbar'
 import HeroSection from './HeroSection'
 import CategoryCarousel from './CategoryCarousel'
 import LatestJobs from './LatestJobs'
@@ -12,20 +11,29 @@ import { useNavigate } from 'react-router-dom'
 const Home = () => {
   useGetAllJobs();
   const {user} = useSelector(store=>store.auth);
+  const {isLoading} = useSelector(store=>store.job);
   const navigate = useNavigate();
+  
   useEffect(()=>{
     if(user?.role ==='recuriter'){
       navigate("/admin/companies")
     }
-  },[]);
+  },[user, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <div>
-        <Navbar/>
         <HeroSection/>
         <CategoryCarousel/>
         <LatestJobs/>
         <Footer/>
-
     </div>
   )
 }

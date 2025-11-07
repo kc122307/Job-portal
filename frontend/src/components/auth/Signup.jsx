@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../shared/Navbar";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@radix-ui/react-radio-group";
@@ -57,7 +56,13 @@ const Signup = () => {
  
   catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.code === 'ERR_NETWORK') {
+        toast.error("Cannot connect to server. Please make sure the backend server is running.");
+      } else {
+        toast.error("Registration failed. Please try again.");
+      }
     }
     finally{
       dispatch(setLoading(false));
@@ -66,11 +71,10 @@ const Signup = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="flex items-center justify-center max-w-7xl mx-auto">
         <form
           action=""
-          className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
+          className="w-1/2 border border-border bg-card text-foreground rounded-md p-4 my-10"
           onSubmit={submitHandler}
         >
           <h1 className="font-bold text-xl mb-5">Sign Up</h1>
@@ -121,9 +125,13 @@ const Signup = () => {
             </div>
           </div>
           {
-            loading ? <Button className="w-full my-4 text-white bg-black hover:bg-[#000000c3]"> <Loader2 className='mr-2 h-4 w-4 animate-spin text-white bg-black hover:bg-[#000000c3]' /> Please wait </Button> : <Button type="submit" className="w-full my-4 text-white bg-black hover:bg-[#000000c3]">SignUp</Button>
+            loading ? (
+              <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button>
+            ) : (
+              <Button type="submit" className="w-full my-4">SignUp</Button>
+            )
           }
-          <span className="text-sm">Already have an account? <Link to="/login" className="text-blue-600">Login</Link></span>
+          <span className="text-sm">Already have an account? <Link to="/login" className="text-primary">Login</Link></span>
         </form>
       </div>
     </div>

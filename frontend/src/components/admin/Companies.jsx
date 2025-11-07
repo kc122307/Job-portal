@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import CompaniesTable from './CompaniesTable'
@@ -21,11 +20,10 @@ const Companies = () => {
 
     return (
         <div>
-            <Navbar />
             <div className='max-w-6xl mx-auto my-10'>
                 <div className='flex justify-between items-center my-5'>
                     <Input className='w-fit' placeholder='Fiter by name' onChange={(e)=> setInput(e.target.value)} />
-                    <Button onClick={()=>navigate("/admin/companies/create")} className="bg-black  text-white ">New Company</Button>
+                    <Button onClick={()=>navigate("/admin/companies/create")} className="bg-primary hover:bg-primary/90">New Company</Button>
                 </div>
                 <CompaniesTable/>
             </div>

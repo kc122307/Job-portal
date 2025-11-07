@@ -24,19 +24,24 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const corsOptions ={
-    origin:'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
     credentials:true
 }
 app.use(cors(corsOptions));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute);
 
-app.listen(PORT, () =>{
-    connectDB();
-    console.log(`Server is running on ${PORT}`);
+app.listen(PORT, async () =>{
+    try {
+        await connectDB();
+        console.log(`Server is running on ${PORT} with MongoDB connected`);
+    } catch (error) {
+        console.log(`Server is running on ${PORT} without MongoDB (Mock Mode)`);
+        console.log("MongoDB connection failed - using mock endpoints for testing");
+    }
 })

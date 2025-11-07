@@ -37,7 +37,7 @@ const CompaniesTable = () => {
                         filterCompany?.map((company) => (
                             <tr>
                                 <TableCell>
-                                    <Avatar>
+                                    <Avatar className='ring-2 ring-white ring-offset-2 ring-offset-background'>
                                         <AvatarImage src={company.logo}/>
                                     </Avatar>
                                 </TableCell>

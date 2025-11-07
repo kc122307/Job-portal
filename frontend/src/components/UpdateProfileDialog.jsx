@@ -21,7 +21,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
         skills: user?.profile?.skills?.map(skill => skill) || "",
-        file: user?.profile?.resume || ""
+        file: null
     })
 
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
         formData.append("skills", input.skills);
-        if (input.file) {
+        if (input.file instanceof File) {
             formData.append("file", input.file);
         }
         try {
@@ -72,8 +72,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         <div>
             <Dialog open={open}>
                 <DialogContent
-                    className="bg-white p-6 rounded-md shadow-lg sm:max-w-[425px]"
-                    style={{ backgroundColor: 'white' }}
+                    className="bg-card text-foreground border border-border p-6 rounded-md shadow-lg sm:max-w-[425px]"
                     onInteractOutside={() => setOpen(false)}
                 >
                     <DialogHeader>
@@ -148,13 +147,15 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                         
                         <DialogFooter>
                         {
-                            loading ? <Button className="w-full my-4 bg-black text-white hover:bg-gray-800">
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
-                          </Button> 
-                          : 
-                          <Button type="submit" className="w-full my-4 bg-black text-white hover:bg-gray-800">
-                            Update
-                          </Button>
+                            loading ? (
+                              <Button className="w-full my-4">
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                              </Button>
+                            ) : (
+                              <Button type="submit" className="w-full my-4">
+                                Update
+                              </Button>
+                            )
                         }
                         </DialogFooter>
                     </form>

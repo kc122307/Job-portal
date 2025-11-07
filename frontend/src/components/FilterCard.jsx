@@ -29,9 +29,9 @@ const FilterCard = () => {
         dispatch(setSearchedQuery(selectedValue));
     },[selectedValue]);
     return (
-        <div className='w-full bg-white p-3 rounded-md'>
+        <div className='w-full bg-card text-foreground p-3 rounded-md border border-border'>
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
-            <hr className='mt-3' />
+            <div className='mt-3 border-t border-border' />
             <RadioGroup value={selectedValue} onValueChange={changeHandler}>
                 {
                     fitlerData.map((data, index) => (
